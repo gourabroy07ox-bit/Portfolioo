@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gourab Roy — Aspiring Cloud Engineer</title>
+<meta name="description" content="Portfolio of Gourab Roy, an aspiring Cloud Engineer interested in cloud technologies and web development.">
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root{
+  /* Light mode */
+  --bg:#F3F6F9;
+  --bg-alt:#E8EDF3;
+  --surface:#FFFFFF;
+  --ink:#0F1720;
+  --ink-soft:#57616D;
+  --line:#DCE3EA;
+  --accent:#2359D6;      /* sky/cloud blue */
+  --accent-soft:#DCE7FB;
+  --accent-2:#0E9C8F;    /* teal, secondary signal */
+  --danger:#C0392B;
+  --focus:#2359D6;
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --radius-s:6px;
+  --radius-m:14px;
+  --maxw:1140px;
+  color-scheme:light;
+}
+
+[data-theme="dark"]{
+  --bg:#0C121B;
+  --bg-alt:#111A26;
+  --surface:#141F2D;
+  --ink:#E8EDF3;
+  --ink-soft:#8FA0B3;
+  --line:#233245;
+  --accent:#5B93F5;
+  --accent-soft:#1A2C4A;
+  --accent-2:#38D6C4;
+  --danger:#E0685A;
+  --focus:#5B93F5;
+  color-scheme:dark;
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  transition:background .3s ease,color .3s ease;
+}
+img,svg{display:block;max-width:100%;}
+ul{list-style:none;}
+a{color:inherit;text-decoration:none;}
+button,input,textarea{font:inherit;color:inherit;}
+
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--focus);
+  outline-offset:3px;
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+
+.section{padding:92px 0;border-bottom:1px solid var(--line);}
+
+.section-head{margin-bottom:44px;max-width:560px;}
+.section-head h2{font-size:clamp(1.6rem,3vw,2.15rem);font-weight:700;letter-spacing:-.3px;}
+.section-head p{color:var(--ink-soft);margin-top:10px;font-size:1.02rem;}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.site-nav{
+  position:sticky;top:0;z-index:100;
+  background:color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:var(--maxw);margin:0 auto;padding:0 28px;
+  height:68px;display:flex;align-items:center;justify-content:space-between;
+}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.12rem;}
+.logo-mark{
+  width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:700;
+}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nav-links a{
+  padding:8px 14px;border-radius:var(--radius-s);
+  font-size:.94rem;color:var(--ink-soft);
+  transition:color .2s ease,background .2s ease;
+}
+.nav-links a:hover{color:var(--ink);background:var(--bg-alt);}
+.nav-controls{display:flex;align-items:center;gap:10px;}
+
+.theme-toggle{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--line);background:var(--surface);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:1.02rem;transition:transform .25s ease,border-color .2s ease;
+}
+.theme-toggle:hover{border-color:var(--accent);transform:rotate(14deg);}
+
+.hamburger{
+  display:none;width:40px;height:40px;border:1px solid var(--line);
+  border-radius:var(--radius-s);background:var(--surface);cursor:pointer;position:relative;
+}
+.hamburger span,.hamburger span::before,.hamburger span::after{
+  content:'';position:absolute;left:10px;right:10px;height:2px;background:var(--ink);
+  transition:transform .25s ease,opacity .2s ease,top .25s ease;
+}
+.hamburger span{top:19px;}
+.hamburger span::before{top:-7px;}
+.hamburger span::after{top:7px;}
+.hamburger[aria-expanded="true"] span{background:transparent;}
+.hamburger[aria-expanded="true"] span::before{top:0;transform:rotate(45deg);}
+.hamburger[aria-expanded="true"] span::after{top:0;transform:rotate(-45deg);}
+
+@media (max-width:840px){
+  .nav-links{
+    position:fixed;top:68px;left:0;right:0;background:var(--surface);
+    border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;
+    padding:8px 0;transform:translateY(-8px);opacity:0;pointer-events:none;
+    transition:opacity .22s ease,transform .22s ease;
+  }
+  .nav-links.open{transform:translateY(0);opacity:1;pointer-events:auto;}
+  .nav-links a{padding:14px 28px;border-radius:0;}
+  .hamburger{display:block;}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{padding:104px 0 92px;overflow:hidden;}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center;}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--accent-2);font-weight:600;font-size:.92rem;margin-bottom:16px;
+}
+.hero-eyebrow::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--accent-2);box-shadow:0 0 0 4px color-mix(in srgb, var(--accent-2) 20%, transparent);
+}
+
+.hero h1{
+  font-size:clamp(2.3rem,5.4vw,3.6rem);
+  font-weight:800;line-height:1.08;letter-spacing:-1px;
+}
+.hero h1 .accent{color:var(--accent);}
+
+.hero-role{
+  margin-top:14px;font-size:clamp(1.05rem,1.6vw,1.2rem);
+  color:var(--ink-soft);max-width:480px;
+}
+
+.hero-cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:13px 26px;
+  border-radius:var(--radius-s);font-size:.97rem;font-weight:600;
+  border:1px solid transparent;cursor:pointer;
+  transition:transform .18s ease,background .2s ease,border-color .2s ease,color .2s ease;
+}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.06);}
+.btn-ghost{border-color:var(--line);background:transparent;color:var(--ink);}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px);}
+
+/* Signature hero element: a small "cloud status" panel — ties to subject matter */
+.status-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:22px 22px 24px;box-shadow:0 20px 40px -24px rgba(15,23,32,.25);
+}
+[data-theme="dark"] .status-card{box-shadow:0 20px 40px -24px rgba(0,0,0,.6);}
+.status-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.status-title{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);}
+.status-dots{display:flex;gap:6px;}
+.status-dots span{width:9px;height:9px;border-radius:50%;background:var(--line);}
+.status-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 0;border-top:1px solid var(--line);font-size:.9rem;
+}
+.status-row:first-of-type{border-top:none;}
+.status-label{color:var(--ink-soft);}
+.status-value{font-family:var(--mono);font-weight:600;}
+.status-ok{color:var(--accent-2);}
+.status-bar{
+  margin-top:16px;height:6px;border-radius:99px;background:var(--bg-alt);overflow:hidden;
+  border:1px solid var(--line);
+}
+.status-bar-fill{
+  height:100%;width:0%;border-radius:99px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  transition:width 1.2s cubic-bezier(.22,1,.36,1);
+}
+.status-caption{margin-top:8px;font-size:.78rem;color:var(--ink-soft);}
+
+@media (max-width:840px){
+  .hero-grid{grid-template-columns:1fr;}
+  .status-card{max-width:420px;}
+}
+
+/* ============================================================
+   ABOUT — card layout
+   ============================================================ */
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;}
+.about-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:32px;
+}
+.about-card p{color:var(--ink-soft);font-size:1.02rem;max-width:60ch;}
+.about-card p + p{margin-top:14px;}
+
+.about-side{display:flex;flex-direction:column;gap:20px;}
+.fact-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:20px 22px;border-left:3px solid var(--accent);
+}
+.fact-card:nth-child(2){border-left-color:var(--accent-2);}
+.fact-card dt{font-size:.8rem;color:var(--ink-soft);}
+.fact-card dd{font-weight:700;font-size:1.08rem;margin-top:4px;}
+
+@media (max-width:840px){.about-grid{grid-template-columns:1fr;}}
+
+/* ============================================================
+   SKILLS
+   ============================================================ */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
+.skill-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:24px 22px;transition:transform .2s ease,border-color .2s ease;
+}
+.skill-card:hover{transform:translateY(-4px);border-color:var(--accent);}
+.skill-glyph{
+  width:42px;height:42px;border-radius:10px;
+  background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:14px;
+}
+.skill-card h3{font-size:1.02rem;font-weight:700;}
+.skill-card p{color:var(--ink-soft);font-size:.88rem;margin-top:6px;}
+
+/* ============================================================
+   EXPERIENCE — timeline
+   ============================================================ */
+.timeline{position:relative;max-width:720px;padding-left:34px;}
+.timeline::before{
+  content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line);
+}
+.timeline-item{position:relative;padding-bottom:4px;}
+.timeline-item::before{
+  content:'';position:absolute;left:-34px;top:6px;width:16px;height:16px;border-radius:50%;
+  background:var(--surface);border:3px solid var(--accent);
+}
+.timeline-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:26px 26px;
+}
+.timeline-card .tag{
+  display:inline-block;font-size:.76rem;font-weight:700;color:var(--accent);
+  background:var(--accent-soft);padding:4px 10px;border-radius:99px;margin-bottom:10px;
+}
+.timeline-card h3{font-size:1.15rem;font-weight:700;}
+.timeline-card p{color:var(--ink-soft);margin-top:10px;font-size:.98rem;max-width:56ch;}
+.timeline-stats{display:flex;gap:26px;margin-top:18px;flex-wrap:wrap;}
+.timeline-stat strong{display:block;font-size:1.5rem;font-weight:800;color:var(--accent);}
+.timeline-stat span{font-size:.8rem;color:var(--ink-soft);}
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;}
+.project-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:28px 26px;display:flex;flex-direction:column;
+  border-top:3px solid var(--accent-2);
+  transition:transform .2s ease,border-color .2s ease;
+}
+.project-card:hover{transform:translateY(-4px);border-color:var(--ink-soft);}
+.project-glyph{font-size:1.6rem;margin-bottom:16px;}
+.project-card h3{font-size:1.2rem;font-weight:700;}
+.project-card p{color:var(--ink-soft);font-size:.96rem;margin-top:8px;flex-grow:1;}
+.project-card .btn{margin-top:22px;align-self:flex-start;padding:10px 20px;font-size:.88rem;}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:52px;}
+.contact-info dt{font-size:.8rem;color:var(--ink-soft);margin-top:24px;}
+.contact-info dt:first-child{margin-top:0;}
+.contact-info dd{font-weight:700;font-size:1.1rem;margin-top:4px;}
+.contact-info dd a:hover{color:var(--accent);}
+
+.field{margin-bottom:20px;}
+.field label{display:block;font-size:.86rem;color:var(--ink-soft);margin-bottom:7px;}
+.field input,.field textarea{
+  width:100%;padding:12px 14px;border-radius:var(--radius-s);
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  font-size:.98rem;transition:border-color .2s ease;
+}
+.field input:focus,.field textarea:focus{border-color:var(--accent);}
+.field textarea{resize:vertical;min-height:120px;}
+.field-error{font-size:.8rem;color:var(--danger);margin-top:6px;min-height:1em;}
+
+.form-status{
+  margin-top:14px;font-size:.92rem;padding:12px 14px;border-radius:var(--radius-s);
+  background:var(--accent-soft);color:var(--ink);display:none;
+}
+.form-status.show{display:block;}
+
+@media (max-width:840px){.contact-grid{grid-template-columns:1fr;gap:36px;}}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{padding:34px 0;text-align:center;color:var(--ink-soft);font-size:.88rem;}
+
+/* Reveal-on-scroll: one orchestrated fade per section */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="#home" class="logo">
+      <span class="logo-mark" aria-hidden="true">GR</span>
+      Gourab Roy
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-controls">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="hero-eyebrow">Available for opportunities</p>
+      <h1>Hi, I'm Gourab Roy<br><span class="accent">Aspiring Cloud Engineer</span></h1>
+      <p class="hero-role">I'm interested in cloud technologies, web development, and modern tech — always learning new skills, building projects, and sharpening what I know.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-ghost">Contact Me</a>
+      </div>
+    </div>
+
+    <!-- Decorative "cloud status" panel -->
+    <div class="status-card" aria-hidden="true">
+      <div class="status-head">
+        <span class="status-title">learning-status.log</span>
+        <div class="status-dots"><span></span><span></span><span></span></div>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Cloud Computing</span>
+        <span class="status-value status-ok">In progress</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Web Development</span>
+        <span class="status-value status-ok">Active</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Generative AI</span>
+        <span class="status-value status-ok">Active</span>
+      </div>
+      <div class="status-bar"><div class="status-bar-fill" id="heroBar"></div></div>
+      <p class="status-caption">Always deploying new skills.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section class="section reveal" id="about">
+  <div class="wrap about-grid">
+    <div class="about-card">
+      <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:14px;">About Me</h2>
+      <p>I am an aspiring Cloud Engineer with an interest in cloud technologies, web development, and modern technology.</p>
+      <p>I enjoy learning new skills, building projects, and continuously improving my technical knowledge — treating every project as a step toward that goal.</p>
+    </div>
+
+    <div class="about-side">
+      <div class="fact-card">
+        <dt>Education</dt>
+        <dd>Bachelor of Arts (B.A.)</dd>
+      </div>
+      <div class="fact-card">
+        <dt>Focus</dt>
+        <dd>Cloud &amp; Web Development</dd>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SKILLS
+     ============================================================ -->
+<section class="section reveal" id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Skills</h2>
+      <p>Technologies and areas I'm actively building experience in.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-glyph">☁️</div>
+        <h3>Cloud Computing</h3>
+        <p>Core concepts and services behind modern cloud infrastructure.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-glyph">🌐</div>
+        <h3>Web Development</h3>
+        <p>Building responsive, functional websites end to end.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-glyph">🧱</div>
+        <h3>HTML</h3>
+        <p>Semantic, accessible page structure.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-glyph">🎨</div>
+        <h3>CSS</h3>
+        <p>Modern, responsive styling and layout.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-glyph">⚙️</div>
+        <h3>JavaScript</h3>
+        <p>Interactive, dynamic front-end behavior.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-glyph">✨</div>
+        <h3>Generative AI</h3>
+        <p>Exploring and applying generative AI tools and concepts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPERIENCE
+     ============================================================ -->
+<section class="section reveal" id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Experience</h2>
+      <p>Hands-on teaching experience during my internship program.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <span class="tag">Internship Program</span>
+          <h3>Generative AI &amp; Web Development Instructor</h3>
+          <p>During my internship program, I taught over 100 students about Generative AI and Web Development — breaking down technical concepts into practical, hands-on lessons.</p>
+          <div class="timeline-stats">
+            <div class="timeline-stat">
+              <strong>100+</strong>
+              <span>Students taught</span>
+            </div>
+            <div class="timeline-stat">
+              <strong>2</strong>
+              <span>Core subject areas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROJECTS
+     ============================================================ -->
+<section class="section reveal" id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Projects</h2>
+      <p>Things I've built while learning the craft.</p>
+    </div>
+
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-glyph">🏋️</div>
+        <h3>Fitness App</h3>
+        <p>A modern and responsive fitness application built using HTML, CSS, and JavaScript.</p>
+        <!--
+          To add your live project link:
+          1. Find the constant PROJECT_LINKS.fitnessApp near the top of the <script> section below.
+          2. Replace the placeholder text with your real URL (e.g. "https://yourdomain.com/fitness-app").
+          That's the only change needed — the button updates automatically.
+        -->
+        <a href="#" class="btn btn-ghost" id="fitnessAppLink">View Project</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="section reveal" id="contact" style="border-bottom:none;">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:0;">
+        <h2>Get in Touch</h2>
+        <p>Have a project or question? Send a message.</p>
+      </div>
+      <dl class="contact-info">
+        <dt>Email</dt>
+        <dd><a href="mailto:gourabroy07ox@gmail.com">gourabroy07ox@gmail.com</a></dd>
+        <dt>Phone</dt>
+        <dd><a href="tel:+918972144096">+91 89721 44096</a></dd>
+      </dl>
+    </div>
+
+    <form id="contactForm" novalidate>
+      <div class="field">
+        <label for="cf-name">Name</label>
+        <input type="text" id="cf-name" name="name" autocomplete="name">
+        <div class="field-error" id="err-name"></div>
+      </div>
+      <div class="field">
+        <label for="cf-email">Email</label>
+        <input type="text" id="cf-email" name="email" autocomplete="email">
+        <div class="field-error" id="err-email"></div>
+      </div>
+      <div class="field">
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message"></textarea>
+        <div class="field-error" id="err-message"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+      <div class="form-status" id="formStatus"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Gourab Roy | All Rights Reserved</div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     PROJECT LINKS — edit this to add your real project URLs
+     ============================================================ */
+  var PROJECT_LINKS = {
+    fitnessApp: "[I WILL ADD FITNESS APP LINK HERE]"
+  };
+
+  var fitnessLink = document.getElementById('fitnessAppLink');
+  fitnessLink.setAttribute('href', PROJECT_LINKS.fitnessApp);
+  fitnessLink.addEventListener('click', function (e) {
+    // Prevent navigation until a real link has been added
+    if (PROJECT_LINKS.fitnessApp.indexOf('[') === 0) {
+      e.preventDefault();
+      alert('Add your Fitness App link in PROJECT_LINKS.fitnessApp inside the script.');
+    }
+  });
+
+  /* ============================================================
+     THEME TOGGLE
+     ============================================================ */
+  var root = document.documentElement;
+  var themeToggle = document.getElementById('themeToggle');
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var currentTheme = prefersDark ? 'dark' : 'light';
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+    if (theme === 'dark') {
+      root.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️';
+    } else {
+      root.removeAttribute('data-theme');
+      themeToggle.textContent = '🌙';
+    }
+  }
+  applyTheme(currentTheme);
+
+  themeToggle.addEventListener('click', function () {
+    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ============================================================
+     MOBILE NAVIGATION
+     ============================================================ */
+  var hamburger = document.getElementById('hamburger');
+  var navLinks = document.getElementById('navLinks');
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburger.addEventListener('click', function () {
+    var isOpen = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  navLinks.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  /* ============================================================
+     SCROLL REVEAL + hero status bar animation
+     ============================================================ */
+  var revealEls = document.querySelectorAll('.reveal');
+  var heroBar = document.getElementById('heroBar');
+
+  // Animate the hero status bar once, shortly after load
+  window.addEventListener('load', function () {
+    setTimeout(function () { heroBar.style.width = '82%'; }, 300);
+  });
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(function (el) { observer.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ============================================================
+     CONTACT FORM VALIDATION (no backend / no API)
+     ============================================================ */
+  var form = document.getElementById('contactForm');
+  var status = document.getElementById('formStatus');
+
+  var nameInput = document.getElementById('cf-name');
+  var emailInput = document.getElementById('cf-email');
+  var messageInput = document.getElementById('cf-message');
+
+  var errName = document.getElementById('err-name');
+  var errEmail = document.getElementById('err-email');
+  var errMessage = document.getElementById('err-message');
+
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function setError(el, msg) {
+    el.textContent = msg;
+  }
+
+  function validate() {
+    var valid = true;
+
+    if (nameInput.value.trim().length < 2) {
+      setError(errName, 'Please enter your name (at least 2 characters).');
+      valid = false;
+    } else {
+      setError(errName, '');
+    }
+
+    if (!emailPattern.test(emailInput.value.trim())) {
+      setError(errEmail, 'Please enter a valid email address.');
+      valid = false;
+    } else {
+      setError(errEmail, '');
+    }
+
+    if (messageInput.value.trim().length < 10) {
+      setError(errMessage, 'Message should be at least 10 characters.');
+      valid = false;
+    } else {
+      setError(errMessage, '');
+    }
+
+    return valid;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    if (!validate()) {
+      status.className = 'form-status show';
+      status.style.background = '#F3D9CD';
+      status.textContent = 'Please fix the highlighted fields above.';
+      return;
+    }
+
+    /* No backend/API — simulate a successful send */
+    status.className = 'form-status show';
+    status.style.removeProperty('background');
+    status.textContent = 'Thanks, ' + nameInput.value.trim() + '! Your message has been noted. I\'ll get back to you soon.';
+    form.reset();
+  });
+
+  ['input'].forEach(function (evt) {
+    nameInput.addEventListener(evt, function () { if (errName.textContent) validate(); });
+    emailInput.addEventListener(evt, function () { if (errEmail.textContent) validate(); });
+    messageInput.addEventListener(evt, function () { if (errMessage.textContent) validate(); });
+  });
+
+})();
+</script>
+
+</body>
+</html>
